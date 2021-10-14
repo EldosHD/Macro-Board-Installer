@@ -81,9 +81,9 @@ def installAllScripts():
         printFail('Could not download all scripts. Check your internet connection. Besides, the github Servers could be down too. Check this link: https://github.com/EldosHD/2nd-Keyboard/')
         errorCount += 1
         return
-    print('--Moving master.zip to C:--')
+    print('--Moving master.zip to C:/--')
     try:
-        shutil.move('master.zip', "C:/master.zip")
+        shutil.move('master.zip', "C:/")
     except:
         printFail('Failed to move the code to C:/')
         errorCount += 1
@@ -155,7 +155,7 @@ def installLuaMacros(path):
     printBlue('--Finished Moving--')
 
     try:
-        unZipFiles(path + 'luaMacros.zip', path + 'luaMacros/')
+        unZipFiles('luaMacros.zip', path + 'luaMacros/')
     except:
         printFail('failed to unzip luaMacros.zip')
         errorCount += 1
