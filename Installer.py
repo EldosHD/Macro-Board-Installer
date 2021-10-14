@@ -83,7 +83,7 @@ def installAllScripts():
         return
     print('--Moving master.zip to C:--')
     try:
-        shutil.move('master.zip', "C:/")
+        shutil.move('master.zip', "C:/master.zip")
     except:
         printFail('Failed to move the code to C:/')
         errorCount += 1
@@ -233,12 +233,12 @@ def main():
 
     if ahkDownloaded:
         try:
-            os.system("/AutoHotkeyInstaller.exe")
+            os.system("AutoHotkeyInstaller.exe")
         except:
             printFail('Failed to run the AHK installer. Check the folder you are currently in to see if its there. If its not. Download it again and run it.')
             errorCount += 1
         try:
-            os.remove("/AutoHotkeyInstaller.exe")
+            os.remove("AutoHotkeyInstaller.exe")
         except:
             pass
 
