@@ -153,7 +153,7 @@ def installLuaMacros(path):
         return
 
     print(bcolors.OKBLUE + '--Finished Moving--\n' + bcolors.ENDC)
-    unZipFiles(path + 'luaMacros.zip', path + 'luaMacros')
+    unZipFiles(path + 'luaMacros.zip', path + 'luaMacros/')
     os.remove(path + 'luaMacros.zip')
 
 def isAdmin():      #credit to: https://raccoon.ninja/en/dev/using-python-to-check-if-the-application-is-running-as-an-administrator/
