@@ -32,17 +32,17 @@ class bcolors:
     BOLD = '\033[1m'    #unused
     UNDERLINE = '\033[4m'   #unused
     
-    def printFail(self, stringToPrint: str):
-        print(bcolors.FAIL + stringToPrint + bcolors.ENDC)
+def printFail(stringToPrint: str):
+    print(bcolors.FAIL + stringToPrint + bcolors.ENDC)
     
-    def printWarning(self, stringToPrint: str):
-        print(bcolors.WARNING + stringToPrint + bcolors.ENDC)
+def printWarning(stringToPrint: str):
+    print(bcolors.WARNING + stringToPrint + bcolors.ENDC)
     
-    def printBlue(self, stringToPrint: str):
-        print(bcolors.OKBLUE + stringToPrint + bcolors.ENDC)
+def printBlue(stringToPrint: str):
+    print(bcolors.OKBLUE + stringToPrint + bcolors.ENDC)
 
-    def printGreen(self, stringToPrint: str):
-        print(bcolors.OKGREEN + stringToPrint + bcolors.ENDC)
+def printGreen(stringToPrint: str):
+    print(bcolors.OKGREEN + stringToPrint + bcolors.ENDC)
 
 #-------------------Functions--------------------
 
@@ -51,13 +51,13 @@ def downloadFile(url, nameFile):
 
     with open(nameFile , 'wb') as f:                    #öffnet ein neues file namens unzip_test.bat in write bytes (wb) modus im filemanegaer (f)
         f.write(r.content)
-    bcolors.printGreen('--Finished Download--')
+    printGreen('--Finished Download--')
         
 def unZipFiles(fileToUnzip, directoryToUnzipTo):
     print('--Unpacking Zip File--')
     with zipfile.ZipFile(fileToUnzip, 'r') as zipFileToExtract:
         zipFileToExtract.extractall(directoryToUnzipTo)
-    bcolors.printBlue('--Finished Unpacking--') 
+    printBlue('--Finished Unpacking--') 
 
 def installAllScripts():
     global errorCount 
@@ -71,28 +71,28 @@ def installAllScripts():
             elif myPath.is_dir():
                 shutil.rmtree(myPath)
     except:
-        bcolors.printFail('The cleanup failed!')
+        printFail('The cleanup failed!')
         errorCount += 1
 
     print('--Downloading GitHub Repo--')
     try:
         downloadFile('https://github.com/EldosHD/2nd-Keyboard/archive/master.zip', 'master.zip')
     except:
-        bcolors.printFail('Could not download all scripts. Check your internet connection. Besides, the github Servers could be down too. Check this link: https://github.com/EldosHD/2nd-Keyboard/')
+        printFail('Could not download all scripts. Check your internet connection. Besides, the github Servers could be down too. Check this link: https://github.com/EldosHD/2nd-Keyboard/')
         errorCount += 1
         return
     print('--Moving master.zip to C:--')
     try:
         shutil.move('master.zip', "C:/")
     except:
-        bcolors.printFail('Failed to move the code to C:/')
+        printFail('Failed to move the code to C:/')
         errorCount += 1
         return
-    bcolors.printBlue('--Finished Moving--')
+    printBlue('--Finished Moving--')
     try:
         unZipFiles('C:/master.zip', 'C:/AHK')
     except:
-        bcolors.printFail('Failed to unzip the Source code')
+        printFail('Failed to unzip the Source code')
         errorCount += 1
         return
     
@@ -100,35 +100,35 @@ def installAllScripts():
     try:
         os.rename('C:/AHK/2nd-Keyboard-master', 'C:/AHK/2nd-keyboard' )
     except:
-        bcolors.printFail('Failed to rename C:/AHK/2nd-Keyboard-master to C:/AHK/2nd-keyboard')
+        printFail('Failed to rename C:/AHK/2nd-Keyboard-master to C:/AHK/2nd-keyboard')
         errorCount += 1
     
     try:
         os.rename('C:/AHK/2nd-keyboard/2nd-Keyboard-Scripts','C:/AHK/2nd-keyboard/LUAMACROS')
     except:
-        bcolors.printFail('Failed to rename C:/AHK/2nd-keyboard/2nd-Keyboard-Scripts to C:/AHK/2nd-keyboard/LUAMACROS')
+        printFail('Failed to rename C:/AHK/2nd-keyboard/2nd-Keyboard-Scripts to C:/AHK/2nd-keyboard/LUAMACROS')
         errorCount += 1
 
     try:
         os.remove('C:/AHK/2nd-keyboard/LUAMACROS/.gitattributes')
     except:
-        bcolors.printFail('Failed to remove: C:/AHK/2nd-keyboard/LUAMACROS/.gitattributes')
+        printFail('Failed to remove: C:/AHK/2nd-keyboard/LUAMACROS/.gitattributes')
         errorCount += 1
 
     try:
         os.remove('C:/AHK/2nd-keyboard/README.md')
     except:
-        bcolors.printFail('Failed to remove: C:/AHK/2nd-keyboard/README.md')
+        printFail('Failed to remove: C:/AHK/2nd-keyboard/README.md')
         errorCount += 1
 
     try:
         os.remove('C:/master.zip')
     except:
-        bcolors.printFail('Failed to remove: C:/master.zip')
+        printFail('Failed to remove: C:/master.zip')
         errorCount += 1
 
-    bcolors.printBlue('--Finished Installing Scripts--')
-    bcolors.printWarning('NOTE: YOU SHOULD CREATE A SHORTCUT FOR YOUR STARTUP FOLDER!!!')
+    printBlue('--Finished Installing Scripts--')
+    printWarning('NOTE: YOU SHOULD CREATE A SHORTCUT FOR YOUR STARTUP FOLDER!!!')
 
 def installAHK():
     global errorCount
@@ -136,10 +136,10 @@ def installAHK():
     try:
         downloadFile('https://www.autohotkey.com/download/ahk-install.exe', 'AutoHotkeyInstaller.exe')
     except:
-        bcolors.printFail('Could not download AHK. Check your internet connection. Besides, the Servers could be down too. Check this link: https://www.autohotkey.com/download/')
+        printFail('Could not download AHK. Check your internet connection. Besides, the Servers could be down too. Check this link: https://www.autohotkey.com/download/')
         errorCount += 1
         return False
-    bcolors.printWarning('The AHK installer will run once this application finishes\n')
+    printWarning('The AHK installer will run once this application finishes\n')
     return True
 
 def installLuaMacros(path):
@@ -149,20 +149,20 @@ def installLuaMacros(path):
     try:
         downloadFile('http://www.hidmacros.eu/luamacros.zip', 'luaMacros.zip')
     except:
-        bcolors.printFail('Could not download Lua Macros. Check your internet connection. Besides, the Servers could be down too. Check this link: http://www.hidmacros.eu/luamacros.zip')
+        printFail('Could not download Lua Macros. Check your internet connection. Besides, the Servers could be down too. Check this link: http://www.hidmacros.eu/luamacros.zip')
         errorCount += 1
         return
-    bcolors.printBlue('--Finished Moving--')
+    printBlue('--Finished Moving--')
 
     try:
         unZipFiles(path + 'luaMacros.zip', path + 'luaMacros/')
     except:
-        bcolors.printFail('failed to unzip luaMacros.zip')
+        printFail('failed to unzip luaMacros.zip')
         errorCount += 1
     try:
         os.remove(path + 'luaMacros.zip')
     except:
-        bcolors.printFail('failed to remove luaMacros.zip ')
+        printFail('failed to remove luaMacros.zip ')
         errorCount += 1
 
 def isAdmin():      #credit to: https://raccoon.ninja/en/dev/using-python-to-check-if-the-application-is-running-as-an-administrator/
@@ -235,7 +235,7 @@ def main():
         try:
             os.system("/AutoHotkeyInstaller.exe")
         except:
-            bcolors.printFail('Failed to run the AHK installer. Check the folder you are currently in to see if its there. If its not. Download it again and run it.')
+            printFail('Failed to run the AHK installer. Check the folder you are currently in to see if its there. If its not. Download it again and run it.')
             errorCount += 1
         try:
             os.remove("/AutoHotkeyInstaller.exe")
@@ -243,7 +243,7 @@ def main():
             pass
 
         if errorCount == 0:
-            bcolors.printGreen('Installation successfull!')
+            printGreen('Installation successfull!')
         else:
             print(f'There were {bcolors.FAIL + str(errorCount) + bcolors.ENDC} errors!')
 
