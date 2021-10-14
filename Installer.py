@@ -143,7 +143,7 @@ def installAHK():
     print(bcolors.WARNING + 'The AHK installer will run once this application finishes\n' + bcolors.ENDC)
     return True
 
-def installLuaMacros():
+def installLuaMacros(path):
     print('--Downloading LuaMacros--')
 
     try:
@@ -151,7 +151,7 @@ def installLuaMacros():
     except:
         print(bcolors.FAIL + 'Could not download Lua Macros. Check your internet connection. Besides, the Servers could be down too. Check this link: http://www.hidmacros.eu/luamacros.zip' + bcolors.ENDC)
         return
-    path = getPathAndMove()
+
     print(bcolors.OKBLUE + '--Finished Moving--\n' + bcolors.ENDC)
     unZipFiles(path + 'luaMacros.zip', path + 'luaMacros')
     os.remove(path + 'luaMacros.zip')
@@ -171,6 +171,7 @@ def main():
     parser = argparse.ArgumentParser(description=programDescription, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-c','--custom', default=False, action='store_true', help='asks you which scripts you want to install')
     parser.add_argument('--no-color', default=False, action='store_true', help='removes all color from the output and doesn´t edit your registry')
+    parser.add_argument('-p','--path', default=standardPathForLuaMacros, type=str, help='specify the path where you want LuaMacros to be installed')
 
     args = parser.parse_args()
 
@@ -213,7 +214,7 @@ def main():
 
 
     if luaMacros.lower() == 'y':
-        installLuaMacros()
+        installLuaMacros(args.path)
 
 
     print(bcolors.OKGREEN + 'Thank you for using this installer the programm will exit in 3 seconds' + bcolors.ENDC)
