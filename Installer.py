@@ -160,7 +160,7 @@ def installLuaMacros(path):
         printFail('failed to unzip luaMacros.zip')
         errorCount += 1
     try:
-        os.remove(path + 'luaMacros.zip')
+        os.remove('luaMacros.zip')
     except:
         printFail('failed to remove luaMacros.zip ')
         errorCount += 1
