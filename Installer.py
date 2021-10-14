@@ -245,7 +245,7 @@ def main():
         if errorCount == 0:
             printGreen('Installation successfull!')
         else:
-            print(f'There were {bcolors.FAIL + str(errorCount) + bcolors.ENDC} errors!')
+            print(f'There were {bcolors.FAIL + str(errorCount) + bcolors.ENDC} error(s)!')
 
         
 if __name__ == "__main__":
