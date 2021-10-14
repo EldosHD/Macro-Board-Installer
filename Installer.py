@@ -131,7 +131,7 @@ def installAllScripts():
         print(bcolors.OKBLUE +'--Finished Installing Scripts--\n' + bcolors.ENDC)
         print(bcolors.WARNING + 'NOTE: YOU SHOULD CREATE A SHORTCUT FOR YOUR STARTUP FOLDER!!!\n' + bcolors.ENDC)
     else:
-        print(f'There were {bcolors.FAIL + errorCount + bcolors.ENDC} errors! The installer will exit!')
+        print(f'There were {bcolors.FAIL + str(errorCount) + bcolors.ENDC} errors! The installer will exit!')
         sys.exit()
 
 def installAHK():
@@ -205,7 +205,6 @@ def main():
 
 
 #--------------Start of Installing---------------
-
     if allScripts.lower() == 'y':
         installAllScripts()
 
