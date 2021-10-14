@@ -116,11 +116,8 @@ def installAllScripts():
         print(bcolors.FAIL + 'Failed to remove: C:/master.zip'+ bcolors.ENDC)
         errorCount += 1
 
-    if errorCount == 0:
-        print(bcolors.OKBLUE +'--Finished Installing Scripts--\n' + bcolors.ENDC)
-        print(bcolors.WARNING + 'NOTE: YOU SHOULD CREATE A SHORTCUT FOR YOUR STARTUP FOLDER!!!\n' + bcolors.ENDC)
-    else:
-        print(f'There were {bcolors.FAIL + str(errorCount) + bcolors.ENDC} errors!')
+    print(bcolors.OKBLUE +'--Finished Installing Scripts--\n' + bcolors.ENDC)
+    print(bcolors.WARNING + 'NOTE: YOU SHOULD CREATE A SHORTCUT FOR YOUR STARTUP FOLDER!!!\n' + bcolors.ENDC)
 
 def installAHK():
     print('--Downloading Autohotkey--')
@@ -162,6 +159,8 @@ def isAdmin():      #credit to: https://raccoon.ninja/en/dev/using-python-to-che
 
 #----------------Beginn of Program---------------
 def main():
+    global errorCount
+
     parser = argparse.ArgumentParser(description=programDescription, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-c','--custom', default=False, action='store_true', help='asks you which scripts you want to install')
     parser.add_argument('--no-color', default=False, action='store_true', help='removes all color from the output and doesn´t edit your registry')
@@ -212,17 +211,28 @@ def main():
         installLuaMacros(args.path)
 
 
-    bcolors.printGreen('Thank you for using this installer the programm will exit in 3 seconds')
-
 #---------------End of Installing----------------
-    time.sleep(3)
+    time.sleep(1)
 
     if ahkDownloaded:
         try:
             os.system("/AutoHotkeyInstaller.exe")
         except:
-            print(bcolors.FAIL + 'Failed to run the AHK installer. Check the folder you are currently in to see if its there. If its not. Download it again and run it.' + bcolors.ENDC)
-        os.remove("/AutoHotkeyInstaller.exe")
+            bcolors.printFail('Failed to run the AHK installer. Check the folder you are currently in to see if its there. If its not. Download it again and run it.')
+            errorCount += 1
+        try:
+            os.remove("/AutoHotkeyInstaller.exe")
+        except:
+            pass
+        
+        if errorCount == 0:
+            bcolors.printGreen('Installation successfull!')
+        else:
+            print(f'There were {bcolors.FAIL + str(errorCount) + bcolors.ENDC} errors!')
+
+        
+        
+
 
 if __name__ == "__main__":
     if (isAdmin() == False):
