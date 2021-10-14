@@ -22,11 +22,25 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    
+    def printFail(self, stringToPrint: str):
+        print(bcolors.FAIL + stringToPrint + bcolors.ENDC)
+    
+    def printWarning(self, stringToPrint: str):
+        print(bcolors.WARNING + stringToPrint + bcolors.ENDC)
+    
+    def printBlue(self, stringToPrint: str):
+        print(bcolors.OKBLUE + stringToPrint + bcolors.ENDC)
+
+    def printGreen(self, stringToPrint: str):
+        print(bcolors.OKGREEN + stringToPrint + bcolors.ENDC)
 
 #-------------------Variables--------------------
 standardPathForLuaMacros = 'C:/Program Files (x86)/'
 
 ahkDownloaded = False
+
+errorCount = 0
 
 programDescription='This is EldosHD´s installer script. You can use it to install his 2nd-Keyboard-Scripts, LuaMacros and Autohotkey. You can customize your installation with -c or --custom. The script will make an entry in your registry so your terminal can display colors. If you dont want the script to edit your registry, use --no-color. If you want to check the code for yourself, or learn more about the script in general, check out my GitHub repo for the script! --> https://github.com/EldosHD/myInstallers.\nThank you for using this installer. Have a good day ;)'
 #-------------------Functions--------------------
@@ -44,30 +58,30 @@ def unZipFiles(fileToUnzip, directoryToUnzipTo):
         zipFileToExtract.extractall(directoryToUnzipTo)
     print(bcolors.OKBLUE + '--Finished Unpacking--\n' + bcolors.ENDC)  
 
-def getPathAndMove():
-    print(bcolors.WARNING + 'Where do you want to install it? (If no path is specefied it will be installed in C:\Program Files (x86))\n' + bcolors.ENDC)
-    path = input('NOTE THAT THE PATH HAS TO BE WRITTEN LIKE THIS C:/Folder/Folder/Folder/  <--- Dont forget the last slash\n')
-    if path == '':
-        path = standardPathForLuaMacros
-    elif path.find('/', len(path)-2) == -1: #checks if "/" is in the string (.find() returns -1 if it finds nothing)
-        path = path + '/'
+# def getPathAndMove():
+#     print(bcolors.WARNING + 'Where do you want to install it? (If no path is specefied it will be installed in C:\Program Files (x86))\n' + bcolors.ENDC)
+#     path = input('NOTE THAT THE PATH HAS TO BE WRITTEN LIKE THIS C:/Folder/Folder/Folder/  <--- Dont forget the last slash\n')
+#     if path == '':
+#         path = standardPathForLuaMacros
+#     elif path.find('/', len(path)-2) == -1: #checks if "/" is in the string (.find() returns -1 if it finds nothing)
+#         path = path + '/'
 
     
-    if os.path.exists(path):
-        print('--Moving luaMacros.zip to ' + path + '--')
-        if os.path.exists(path + 'luaMacros.zip'):
-            return path
-        else:
-            shutil.move('luaMacros.zip', path)
-    else:
-        print(bcolors.FAIL + 'you specified an invalid Path!' + bcolors.ENDC)
-        tryAgain = input('Do you want to specify another path? (NOTE if you dont specify a path it will be installed to C:/Program Files (x86)/) (Y/N)')
-        if tryAgain.lower() == 'y':
-            path = getPathAndMove()
-        else:
-            path = standardPathForLuaMacros
-            shutil.move('luaMacros.zip', path)
-    return path
+#     if os.path.exists(path):
+#         print('--Moving luaMacros.zip to ' + path + '--')
+#         if os.path.exists(path + 'luaMacros.zip'):
+#             return path
+#         else:
+#             shutil.move('luaMacros.zip', path)
+#     else:
+#         print(bcolors.FAIL + 'you specified an invalid Path!' + bcolors.ENDC)
+#         tryAgain = input('Do you want to specify another path? (NOTE if you dont specify a path it will be installed to C:/Program Files (x86)/) (Y/N)')
+#         if tryAgain.lower() == 'y':
+#             path = getPathAndMove()
+#         else:
+#             path = standardPathForLuaMacros
+#             shutil.move('luaMacros.zip', path)
+#     return path
 
 def installAllScripts():
     #cleans up old downloads
@@ -94,8 +108,6 @@ def installAllScripts():
     print(bcolors.OKBLUE + '--Finished Moving--\n'+ bcolors.ENDC)
     unZipFiles('C:/master.zip', 'C:/AHK')
     print('--Installing Scripts--')
-
-    errorCount = 0
 
     try:
         os.rename('C:/AHK/2nd-Keyboard-master', 'C:/AHK/2nd-keyboard' )
@@ -151,10 +163,16 @@ def installLuaMacros(path):
     except:
         print(bcolors.FAIL + 'Could not download Lua Macros. Check your internet connection. Besides, the Servers could be down too. Check this link: http://www.hidmacros.eu/luamacros.zip' + bcolors.ENDC)
         return
+    bcolors.printBlue('--Finished Moving--\n')
 
-    print(bcolors.OKBLUE + '--Finished Moving--\n' + bcolors.ENDC)
-    unZipFiles(path + 'luaMacros.zip', path + 'luaMacros/')
-    os.remove(path + 'luaMacros.zip')
+    try:
+        unZipFiles(path + 'luaMacros.zip', path + 'luaMacros/')
+    except:
+        bcolors.printFail('failed to unzip luaMacros.zip')
+    try:
+        os.remove(path + 'luaMacros.zip')
+    except:
+        bcolors.printFail('failed to remove luaMacros.zip ')
 
 def isAdmin():      #credit to: https://raccoon.ninja/en/dev/using-python-to-check-if-the-application-is-running-as-an-administrator/
     try:
@@ -167,7 +185,6 @@ def isAdmin():      #credit to: https://raccoon.ninja/en/dev/using-python-to-che
 
 #----------------Beginn of Program---------------
 def main():
-
     parser = argparse.ArgumentParser(description=programDescription, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-c','--custom', default=False, action='store_true', help='asks you which scripts you want to install')
     parser.add_argument('--no-color', default=False, action='store_true', help='removes all color from the output and doesn´t edit your registry')
