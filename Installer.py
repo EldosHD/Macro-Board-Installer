@@ -51,7 +51,7 @@ def downloadFile(url, nameFile):
 
     with open(nameFile , 'wb') as f:                    #öffnet ein neues file namens unzip_test.bat in write bytes (wb) modus im filemanegaer (f)
         f.write(r.content)
-    bcolors.printBlue('--Finished Download--')
+    bcolors.printGreen('--Finished Download--')
         
 def unZipFiles(fileToUnzip, directoryToUnzipTo):
     print('--Unpacking Zip File--')
