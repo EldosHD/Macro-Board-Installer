@@ -175,6 +175,7 @@ def main():
 
     args = parser.parse_args()
 
+    print(f'PAth: {args.path}')
     #------------------Registry Edit-----------------
     if args.no_color == True:
         bcolors.HEADER = ''
@@ -227,6 +228,7 @@ def main():
             os.system("/AutoHotkeyInstaller.exe")
         except:
             print(bcolors.FAIL + 'Failed to run the AHK installer. Check the folder you are currently in to see if its there. If its not. Download it again and run it.' + bcolors.ENDC)
+        os.remove("/AutoHotkeyInstaller.exe")
 
 if __name__ == "__main__":
     if (isAdmin() == False):
