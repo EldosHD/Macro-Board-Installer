@@ -10,8 +10,17 @@ import ctypes
 import argparse
 
 
-#credit to https://stackoverflow.com/questions/287871/how-to-print-colored-text-in-python for the bcolors class!
 
+#-------------------Variables--------------------
+standardPathForLuaMacros = 'C:/Program Files (x86)/'
+
+ahkDownloaded = False
+
+errorCount = 0
+
+programDescription='This is EldosHD´s installer script. You can use it to install his 2nd-Keyboard-Scripts, LuaMacros and Autohotkey. You can customize your installation with -c or --custom. The script will make an entry in your registry so your terminal can display colors. If you dont want the script to edit your registry, use --no-color. If you want to check the code for yourself, or learn more about the script in general, check out my GitHub repo for the script! --> https://github.com/EldosHD/myInstallers.\nThank you for using this installer. Have a good day ;)'
+
+#credit to https://stackoverflow.com/questions/287871/how-to-print-colored-text-in-python for the bcolors class!
 #----------------My Own Librarys-----------------
 class bcolors:
     HEADER = '\033[95m'
@@ -35,14 +44,6 @@ class bcolors:
     def printGreen(self, stringToPrint: str):
         print(bcolors.OKGREEN + stringToPrint + bcolors.ENDC)
 
-#-------------------Variables--------------------
-standardPathForLuaMacros = 'C:/Program Files (x86)/'
-
-ahkDownloaded = False
-
-errorCount = 0
-
-programDescription='This is EldosHD´s installer script. You can use it to install his 2nd-Keyboard-Scripts, LuaMacros and Autohotkey. You can customize your installation with -c or --custom. The script will make an entry in your registry so your terminal can display colors. If you dont want the script to edit your registry, use --no-color. If you want to check the code for yourself, or learn more about the script in general, check out my GitHub repo for the script! --> https://github.com/EldosHD/myInstallers.\nThank you for using this installer. Have a good day ;)'
 #-------------------Functions--------------------
 
 def downloadFile(url, nameFile):
@@ -58,32 +59,8 @@ def unZipFiles(fileToUnzip, directoryToUnzipTo):
         zipFileToExtract.extractall(directoryToUnzipTo)
     print(bcolors.OKBLUE + '--Finished Unpacking--\n' + bcolors.ENDC)  
 
-# def getPathAndMove():
-#     print(bcolors.WARNING + 'Where do you want to install it? (If no path is specefied it will be installed in C:\Program Files (x86))\n' + bcolors.ENDC)
-#     path = input('NOTE THAT THE PATH HAS TO BE WRITTEN LIKE THIS C:/Folder/Folder/Folder/  <--- Dont forget the last slash\n')
-#     if path == '':
-#         path = standardPathForLuaMacros
-#     elif path.find('/', len(path)-2) == -1: #checks if "/" is in the string (.find() returns -1 if it finds nothing)
-#         path = path + '/'
-
-    
-#     if os.path.exists(path):
-#         print('--Moving luaMacros.zip to ' + path + '--')
-#         if os.path.exists(path + 'luaMacros.zip'):
-#             return path
-#         else:
-#             shutil.move('luaMacros.zip', path)
-#     else:
-#         print(bcolors.FAIL + 'you specified an invalid Path!' + bcolors.ENDC)
-#         tryAgain = input('Do you want to specify another path? (NOTE if you dont specify a path it will be installed to C:/Program Files (x86)/) (Y/N)')
-#         if tryAgain.lower() == 'y':
-#             path = getPathAndMove()
-#         else:
-#             path = standardPathForLuaMacros
-#             shutil.move('luaMacros.zip', path)
-#     return path
-
 def installAllScripts():
+    global errorCount 
     #cleans up old downloads
     try:        
         paths = ['C:/AHK','C:/master.zip', 'master.zip']
@@ -235,7 +212,7 @@ def main():
         installLuaMacros(args.path)
 
 
-    print(bcolors.OKGREEN + 'Thank you for using this installer the programm will exit in 3 seconds' + bcolors.ENDC)
+    bcolors.printGreen('Thank you for using this installer the programm will exit in 3 seconds')
 
 #---------------End of Installing----------------
     time.sleep(3)
