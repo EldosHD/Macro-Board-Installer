@@ -109,23 +109,18 @@ def installAllScripts():
         printFail('Failed to rename C:/AHK/2nd-keyboard/2nd-Keyboard-Scripts to C:/AHK/2nd-keyboard/LUAMACROS')
         errorCount += 1
 
-    try:
-        os.remove('C:/AHK/2nd-keyboard/LUAMACROS/.gitattributes')
-    except:
-        printFail('Failed to remove: C:/AHK/2nd-keyboard/LUAMACROS/.gitattributes')
-        errorCount += 1
-
-    try:
-        os.remove('C:/AHK/2nd-keyboard/README.md')
-    except:
-        printFail('Failed to remove: C:/AHK/2nd-keyboard/README.md')
-        errorCount += 1
-
-    try:
-        os.remove('C:/master.zip')
-    except:
-        printFail('Failed to remove: C:/master.zip')
-        errorCount += 1
+    # removes all the unnecessary stuff
+    paths = ['C:/AHK/2nd-keyboard/LUAMACROS/.gitattributes','C:/AHK/2nd-keyboard/README.md', 'C:/master.zip']
+    for path in paths:
+        myPath = Path(path)
+        if myPath.is_file():  # checks if file exists
+            try:
+                os.remove(myPath)
+            except:
+                printFail(f'Failed to remove: {myPath}')
+                errorCount += 1
+        elif myPath.is_dir():
+            shutil.rmtree(myPath)
 
     printBlue('--Finished Installing Scripts--')
     printWarning('NOTE: YOU SHOULD CREATE A SHORTCUT FOR YOUR STARTUP FOLDER!!!')
