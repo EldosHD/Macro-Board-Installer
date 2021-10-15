@@ -51,13 +51,11 @@ def downloadFile(url, nameFile):
 
     with open(nameFile , 'wb') as f:                    #öffnet ein neues file namens unzip_test.bat in write bytes (wb) modus im filemanegaer (f)
         f.write(r.content)
-    printGreen('--Finished Download--')
         
 def unZipFiles(fileToUnzip, directoryToUnzipTo):
-    print('--Unpacking Zip File--')
+    print('Unpacking Zip File')
     with zipfile.ZipFile(fileToUnzip, 'r') as zipFileToExtract:
         zipFileToExtract.extractall(directoryToUnzipTo)
-    printBlue('--Finished Unpacking--') 
 
 def installAllScripts():
     global errorCount 
@@ -74,21 +72,20 @@ def installAllScripts():
         printFail('The cleanup failed!')
         errorCount += 1
 
-    print('--Downloading GitHub Repo--')
+    print('Downloading GitHub Repo')
     try:
         downloadFile('https://github.com/EldosHD/2nd-Keyboard/archive/master.zip', 'master.zip')
     except:
         printFail('Could not download all scripts. Check your internet connection. Besides, the github Servers could be down too. Check this link: https://github.com/EldosHD/2nd-Keyboard/')
         errorCount += 1
         return
-    print('--Moving master.zip to C:/--')
+    print('Moving master.zip to C:/')
     try:
         shutil.move('master.zip', "C:/")
     except:
         printFail('Failed to move the code to C:/')
         errorCount += 1
         return
-    printBlue('--Finished Moving--')
     try:
         unZipFiles('C:/master.zip', 'C:/AHK')
     except:
@@ -96,7 +93,7 @@ def installAllScripts():
         errorCount += 1
         return
     
-    print('--Installing Scripts--')
+    print('Installing Scripts')
     try:
         os.rename('C:/AHK/2nd-Keyboard-master', 'C:/AHK/2nd-keyboard' )
     except:
@@ -122,12 +119,12 @@ def installAllScripts():
         elif myPath.is_dir():
             shutil.rmtree(myPath)
 
-    printBlue('--Finished Installing Scripts--')
+    printBlue('Finished Installing Scripts')
     printWarning('NOTE: YOU SHOULD CREATE A SHORTCUT FOR YOUR STARTUP FOLDER!!!')
 
 def installAHK():
     global errorCount
-    print('--Downloading Autohotkey--')
+    print('Downloading Autohotkey')
     try:
         downloadFile('https://www.autohotkey.com/download/ahk-install.exe', 'AutoHotkeyInstaller.exe')
     except:
@@ -139,7 +136,7 @@ def installAHK():
 
 def installLuaMacros(path):
     global errorCount
-    print('--Downloading LuaMacros--')
+    print('Downloading LuaMacros')
 
     try:
         downloadFile('http://www.hidmacros.eu/luamacros.zip', 'luaMacros.zip')
@@ -147,7 +144,6 @@ def installLuaMacros(path):
         printFail('Could not download Lua Macros. Check your internet connection. Besides, the Servers could be down too. Check this link: http://www.hidmacros.eu/luamacros.zip')
         errorCount += 1
         return
-    printBlue('--Finished Moving--')
 
     try:
         unZipFiles('luaMacros.zip', path + 'luaMacros/')
