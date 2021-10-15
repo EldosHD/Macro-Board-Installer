@@ -176,7 +176,6 @@ def main():
 
     args = parser.parse_args()
 
-    print(f'PAth: {args.path}')
     #------------------Registry Edit-----------------
     if args.no_color == True:
         bcolors.HEADER = ''
@@ -233,10 +232,10 @@ def main():
         except:
             pass
 
-        if errorCount == 0:
-            printGreen('Installation successfull!')
-        else:
-            print(f'There were {bcolors.FAIL + str(errorCount) + bcolors.ENDC} error(s)!')
+    if errorCount == 0:
+        printGreen('Installation successfull!')
+    else:
+        print(f'There were {bcolors.FAIL + str(errorCount) + bcolors.ENDC} error(s)!')
 
         
 if __name__ == "__main__":
